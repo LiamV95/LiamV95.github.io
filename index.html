@@ -129,10 +129,32 @@
                 // 1. SORT BY POSITION
                 // We use sortOrder to ensure 1 is above 2, T3 is above T5, etc.
                 competitors.sort((a, b) => {
-                    const rankA = a.status?.position?.sortOrder || 999;
-                    const rankB = b.status?.position?.sortOrder || 999;
-                    return rankA - rankB;
-                });
+    const getNumericScore = (player) => {
+        // Use numeric round score if available
+        if (player.linescores && player.linescores[0] && typeof player.linescores[0].value === 'number') {
+            return player.linescores[0].value;
+        }
+
+        // Fallbacks
+        if (player.score === "E") return 0;
+
+        const parsed = parseFloat(player.score);
+        return isNaN(parsed) ? 99 : parsed; // Push invalid scores to bottom
+    };
+
+    const scoreA = getNumericScore(a);
+    const scoreB = getNumericScore(b);
+
+    // 1. Sort by score (LOWEST FIRST)
+    if (scoreA !== scoreB) {
+        return scoreA - scoreB;
+    }
+
+    // 2. Tie‑breaker: ESPN official position order
+    const sortA = parseInt(a.status?.position?.sortOrder) || 999;
+    const sortB = parseInt(b.status?.position?.sortOrder) || 999;
+    return sortA - sortB;
+});
 
                 document.getElementById('event-name').innerText = event.name;
 
