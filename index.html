@@ -3,155 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard | The 2026 Masters Tournament</title>
+    <title>Live Leaderboard | The Masters 2026</title>
     
-    <!-- Masters Typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Masters-style Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --masters-green: #006747;
             --masters-yellow: #ffcc00;
-            --bg-grey: #f4f4f4;
-            --text-main: #1a1a1a;
-            --border-color: #e0e0e0;
+            --bg-body: #f7f7f7;
+            --text-dark: #1a1a1a;
+            --border: #dddddd;
             --score-red: #d0021b;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-grey);
-            color: var(--text-main);
+            background-color: var(--bg-body);
+            color: var(--text-dark);
             margin: 0;
-            -webkit-font-smoothing: antialiased;
+            padding: 0;
         }
 
-        /* Top Navigation */
-        .navbar {
-            background: #fff;
-            border-bottom: 1px solid var(--border-color);
-            padding: 12px 0;
+        /* Top Branding Bar */
+        .masthead {
+            background-color: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 10px 0;
+            text-align: center;
             position: sticky;
             top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            z-index: 1000;
         }
 
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-        }
-
-        .nav-logo {
-            height: 45px;
-        }
-
-        .nav-date {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--masters-green);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .logo {
+            height: 50px;
         }
 
         /* Hero Header */
         .hero {
             background: white;
+            border-bottom: 1px solid var(--border);
             padding: 40px 0 20px 0;
-            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1140px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        h1 {
-            font-family: 'IBM Plex Serif', serif;
-            font-size: 38px;
-            font-weight: 600;
-            margin: 10px 0;
-            color: var(--masters-green);
-        }
-
-        .live-status {
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
             font-size: 11px;
             font-weight: 700;
-            letter-spacing: 1.5px;
-            display: flex;
-            align-items: center;
-            color: #666;
             text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #666;
         }
 
-        .dot {
+        .status-dot {
             height: 8px;
             width: 8px;
             background-color: var(--score-red);
             border-radius: 50%;
-            display: inline-block;
             margin-right: 8px;
-            animation: blink 1.5s infinite;
+            animation: pulse 1.5s infinite;
         }
 
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        /* Leaderboard Table */
-        .table-wrapper {
-            margin: 30px 0;
+        h1 {
+            font-family: 'IBM Plex Serif', serif;
+            font-size: 36px;
+            color: var(--masters-green);
+            margin: 10px 0;
+        }
+
+        /* Leaderboard Table Styles */
+        .leaderboard-container {
             background: white;
-            border-radius: 4px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            overflow: hidden;
+            border-radius: 2px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow-x: auto;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 800px;
+            min-width: 850px;
         }
 
-        th {
+        thead th {
             background: #fff;
-            text-align: left;
-            padding: 18px 15px;
-            font-size: 11px;
+            color: #757575;
             text-transform: uppercase;
+            font-size: 11px;
+            font-weight: 700;
             letter-spacing: 1px;
+            padding: 15px;
             border-bottom: 2px solid var(--masters-green);
-            color: #888;
+            text-align: left;
         }
 
-        td {
+        tbody td {
             padding: 14px 15px;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 14px;
+            border-bottom: 1px solid #eee;
+            font-size: 15px;
         }
 
-        tr:last-child td { border-bottom: none; }
+        tr:hover {
+            background-color: #fcfcfc;
+        }
 
-        tr:hover { background-color: #f9fbf9; }
-
-        /* Player Styling */
-        .player-info {
+        /* Player Cell styling */
+        .player-cell {
             display: flex;
             align-items: center;
         }
 
-        .player-img {
-            width: 44px;
-            height: 44px;
+        .player-photo {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: #f0f0f0;
             margin-right: 15px;
-            object-fit: cover;
             border: 1px solid #eee;
         }
 
@@ -159,63 +138,52 @@
             font-family: 'IBM Plex Serif', serif;
             font-weight: 600;
             font-size: 16px;
+            color: var(--text-dark);
         }
 
-        /* Score Styling */
-        .score-bold {
+        .score-cell {
             font-weight: 700;
             font-size: 16px;
         }
 
         .under-par { color: var(--score-red); }
-        .even-par { color: var(--text-main); }
+        .even-par { color: var(--text-dark); }
 
-        .rank-cell { font-weight: 600; color: #666; width: 50px; }
-
-        /* Loader */
-        .loader {
-            width: 30px;
-            height: 30px;
-            border: 3px solid #eee;
-            border-top: 3px solid var(--masters-green);
-            border-radius: 50%;
-            margin: 50px auto;
-            animation: spin 1s linear infinite;
+        .loading-state {
+            padding: 100px;
+            text-align: center;
+            font-family: 'IBM Plex Serif', serif;
+            color: #999;
         }
 
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
+        /* Responsive */
         @media (max-width: 768px) {
-            h1 { font-size: 28px; }
-            .nav-date { display: none; }
-            .table-wrapper { overflow-x: scroll; }
+            h1 { font-size: 26px; }
+            .hero { padding: 20px 0; }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="nav-content">
-            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/7/7e/Masters_Tournament_logo.svg/1200px-Masters_Tournament_logo.svg.png" alt="Masters Logo" class="nav-logo">
-            <div class="nav-date">April 9 – 12, 2026</div>
-        </div>
-    </nav>
+    <div class="masthead">
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/7/7e/Masters_Tournament_logo.svg/1200px-Masters_Tournament_logo.svg.png" alt="Masters Logo" class="logo">
+    </div>
 
     <header class="hero">
         <div class="container">
-            <div class="live-status">
-                <span class="dot"></span> <span id="update-text">Live Scoring</span>
+            <div class="status-badge">
+                <span class="status-dot"></span> <span id="sync-status">Syncing Live Data</span>
             </div>
-            <h1>Leaderboard</h1>
+            <h1 id="tournament-name">Leaderboard</h1>
         </div>
     </header>
 
     <main class="container">
-        <div class="table-wrapper">
-            <table id="leaderboard">
+        <div class="leaderboard-container">
+            <table id="leaderboard-table">
                 <thead>
                     <tr>
-                        <th>Pos</th>
+                        <th style="width: 60px;">Pos</th>
                         <th>Player</th>
                         <th>To Par</th>
                         <th>Thru</th>
@@ -224,80 +192,42 @@
                         <th>R2</th>
                         <th>R3</th>
                         <th>R4</th>
-                        <th>Tot</th>
+                        <th>Total</th>
                     </tr>
                 </thead>
                 <tbody id="leaderboard-body">
-                    <!-- Data injected here -->
+                    <tr>
+                        <td colspan="10" class="loading-state">Connecting to ESPN Scoreboard...</td>
+                    </tr>
                 </tbody>
             </table>
-            <div id="loader" class="loader"></div>
         </div>
     </main>
 
     <script>
-        // API Endpoint for PGA/Masters Data
         const API_URL = 'https://site.api.espn.com/apis/site/v2/sports/golf/leaderboard?league=pga';
 
-        async function updateLeaderboard() {
-            const tbody = document.getElementById('leaderboard-body');
-            const loader = document.getElementById('loader');
-            const updateText = document.getElementById('update-text');
-
+        async function fetchLeaderboard() {
             try {
                 const response = await fetch(API_URL);
                 const data = await response.json();
                 
-                // Usually data.events[0] is the active tournament
+                if (!data.events || data.events.length === 0) {
+                    showError("No active tournament found.");
+                    return;
+                }
+
                 const event = data.events[0];
-                const competitors = event.competitions[0].competitors;
+                const competition = event.competitions[0];
+                const competitors = competition.competitors;
 
-                // Clear table and hide loader
-                tbody.innerHTML = '';
-                loader.style.display = 'none';
+                // Update Tournament Title
+                document.getElementById('tournament-name').innerText = event.name;
+                document.getElementById('sync-status').innerText = `Live Update • ${new Date().toLocaleTimeString()}`;
 
-                competitors.forEach(player => {
-                    const row = document.createElement('tr');
-                    
-                    // Logic for "To Par" display
-                    const rawScore = player.score;
-                    const scoreDisplay = rawScore === "0" ? "E" : (parseInt(rawScore) > 0 ? `+${rawScore}` : rawScore);
-                    const scoreClass = parseInt(rawScore) < 0 ? 'under-par' : 'even-par';
+                // Sort players by position
+                competitors.sort((a, b) => (a.status.position.sortOrder || 0) - (b.status.position.sortOrder || 0));
 
-                    row.innerHTML = `
-                        <td class="rank-cell">${player.status.position.abbreviation || '-'}</td>
-                        <td>
-                            <div class="player-info">
-                                <img src="${player.athlete.headshot || 'https://a.espncdn.com/combiner/i?img=/i/headshots/placeholder.png'}" class="player-img">
-                                <span class="player-name">${player.athlete.displayName}</span>
-                            </div>
-                        </td>
-                        <td class="score-bold ${scoreClass}">${scoreDisplay}</td>
-                        <td>${player.status.displayValue || '-'}</td>
-                        <td>${player.linescores[player.linescores.length - 1]?.displayValue || '-'}</td>
-                        <td>${player.linescores[0]?.displayValue || '-'}</td>
-                        <td>${player.linescores[1]?.displayValue || '-'}</td>
-                        <td>${player.linescores[2]?.displayValue || '-'}</td>
-                        <td>${player.linescores[3]?.displayValue || '-'}</td>
-                        <td style="font-weight:bold">${player.records[0]?.summary || '-'}</td>
-                    `;
-                    tbody.appendChild(row);
-                });
-
-                updateText.innerText = `Live Scoring • Last Updated ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+                renderTable(competitors);
 
             } catch (error) {
-                console.error("Error fetching data:", error);
-                loader.style.display = 'none';
-                tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; padding: 50px; color: #666; font-family: 'IBM Plex Serif', serif;">
-                    The 2026 Masters Tournament has not started yet.<br><small>Data will appear here live in April 2026.</small>
-                </td></tr>`;
-            }
-        }
-
-        // Initialize and set refresh interval (every 30 seconds)
-        updateLeaderboard();
-        setInterval(updateLeaderboard, 30000);
-    </script>
-</body>
-</html>
