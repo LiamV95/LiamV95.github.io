@@ -3,111 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Leaderboard | The Masters</title>
+    <title>Masters 2026 | Live Round 1</title>
+    
+    <!-- Masters Typography -->
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@600&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --masters-green: #006747;
+            --masters-yellow: #ffcc00;
             --text-dark: #1a1a1a;
             --score-red: #d0021b;
-            --border: #eeeeee;
+            --border: #e0e0e0;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f9f9f9;
+            background-color: #f2f2f2;
             margin: 0;
             color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
         }
 
-        .header {
+        /* Header / Navbar */
+        .navbar {
             background: #fff;
-            border-bottom: 1px solid var(--border);
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid var(--masters-green);
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .logo { height: 40px; }
+        .logo { height: 45px; }
 
         .container {
-            max-width: 800px;
-            margin: 20px auto;
+            max-width: 850px;
+            margin: 25px auto;
             padding: 0 15px;
         }
 
         h1 {
             font-family: 'IBM Plex Serif', serif;
-            font-size: 28px;
+            font-size: 32px;
             color: var(--masters-green);
-            margin-bottom: 20px;
             text-align: center;
+            margin-bottom: 20px;
         }
 
-        .card {
+        /* Table Card */
+        .leaderboard-card {
             background: #fff;
             border-radius: 4px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             overflow: hidden;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            table-layout: fixed;
         }
 
         th {
-            text-align: left;
-            padding: 15px;
+            background: #fff;
+            padding: 16px;
             font-size: 11px;
             text-transform: uppercase;
-            color: #888;
-            border-bottom: 2px solid var(--masters-green);
-            background: #fff;
+            letter-spacing: 1.5px;
+            color: #777;
+            border-bottom: 3px solid var(--masters-green);
+            text-align: left;
         }
 
         td {
-            padding: 14px 15px;
+            padding: 16px;
             border-bottom: 1px solid var(--border);
-            font-size: 15px;
+            font-size: 16px;
         }
 
         tr:nth-child(even) { background-color: #fafafa; }
+        tr:hover { background-color: #f4f8f4; }
 
-        .pos-cell { font-weight: 700; color: #666; width: 60px; }
-        .player-name { font-family: 'IBM Plex Serif', serif; font-weight: 600; font-size: 16px; color: #111; }
-        .score-cell { font-weight: 700; text-align: right; font-size: 17px; width: 90px; }
-        .thru-cell { color: #666; text-align: right; font-size: 14px; }
+        /* Column Specifics */
+        .col-pos { width: 15%; font-weight: 700; color: #555; }
+        .col-player { width: 45%; }
+        .col-thru { width: 20%; text-align: right; color: #666; font-size: 14px; }
+        .col-score { width: 20%; text-align: right; font-weight: 800; font-size: 18px; }
+
+        .player-name {
+            font-family: 'IBM Plex Serif', serif;
+            font-weight: 600;
+            color: #111;
+        }
+
         .under-par { color: var(--score-red); }
 
-        .loading { padding: 60px; text-align: center; color: #999; font-style: italic; }
+        .loading-state {
+            padding: 80px;
+            text-align: center;
+            color: #999;
+            font-style: italic;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 24px; }
+            td, th { padding: 12px 10px; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/7/7e/Masters_Tournament_logo.svg/1200px-Masters_Tournament_logo.svg.png" class="logo">
-    </div>
+    <nav class="navbar">
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/7/7e/Masters_Tournament_logo.svg/1200px-Masters_Tournament_logo.svg.png" alt="Masters Logo" class="logo">
+    </nav>
 
     <div class="container">
-        <h1 id="event-name">Masters Tournament</h1>
+        <h1 id="tournament-title">Leaderboard</h1>
         
-        <div class="card">
-            <table id="leaderboard">
+        <div class="leaderboard-card">
+            <table>
                 <thead>
                     <tr>
-                        <th>Pos</th>
-                        <th>Player</th>
-                        <th style="text-align: right;">Thru</th>
-                        <th style="text-align: right;">Total</th>
+                        <th class="col-pos">Pos</th>
+                        <th class="col-player">Player</th>
+                        <th class="col-thru">Thru</th>
+                        <th class="col-score">R1 Score</th>
                     </tr>
                 </thead>
-                <tbody id="table-body">
-                    <tr><td colspan="4" class="loading">Fetching live leaderboard...</td></tr>
+                <tbody id="leaderboard-body">
+                    <tr>
+                        <td colspan="4" class="loading-state">Synchronizing with Augusta National...</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -116,7 +145,7 @@
     <script>
         const API_URL = 'https://site.api.espn.com/apis/site/v2/sports/golf/leaderboard?league=pga';
 
-        async function fetchScores() {
+        async function fetchMastersData() {
             try {
                 const response = await fetch(API_URL);
                 const data = await response.json();
@@ -126,9 +155,9 @@
                 const event = data.events[0];
                 const competitors = event.competitions[0].competitors;
 
-                // 1. SORT BY POSITION
-                // We use sortOrder to ensure 1 is above 2, T3 is above T5, etc.
+                // --- STRICT NUMERIC SORTING (1 to 100) ---
                 competitors.sort((a, b) => {
+                   competitors.sort((a, b) => {
     const getNumericScore = (player) => {
         // Use numeric round score if available
         if (player.linescores && player.linescores[0] && typeof player.linescores[0].value === 'number') {
@@ -156,51 +185,62 @@
     return sortA - sortB;
 });
 
-                document.getElementById('event-name').innerText = event.name;
+                document.getElementById('tournament-title').innerText = event.name;
 
-                const tbody = document.getElementById('table-body');
+                const tbody = document.getElementById('leaderboard-body');
                 tbody.innerHTML = '';
 
                 competitors.forEach(p => {
-                    // 2. POSITION DISPLAY
-                    const position = p.status?.position?.abbreviation || p.status?.position?.displayName || "-";
+                    // 1. POSITION FIX
+                    // Chain: Abbreviation (T1) -> Rank (1) -> sortOrder -> "-"
+                    let pos = p.status?.position?.abbreviation || 
+                              p.status?.position?.displayName || 
+                              p.status?.position?.sortOrder || 
+                              p.currenctRank || "-";
 
-                    // 3. LIVE SCORE (TO PAR)
-                    // We prioritize displayValue to get "-5" or "E" instead of raw numbers
-                    let liveScore = "E";
-                    if (p.score) {
-                        liveScore = (typeof p.score === 'object') ? p.score.displayValue : p.score;
-                    }
-                    
-                    // Logic to color score red if there's a minus sign
-                    const isUnderPar = String(liveScore).includes('-');
-                    const scoreClass = isUnderPar ? 'under-par' : '';
+                    // 2. PLAYER NAME
+                    const name = p.athlete?.displayName || "Unknown Player";
 
-                    // 4. THRU STATUS
+                    // 3. THRU STATUS
                     const thru = p.status?.displayValue || "-";
 
-                    tbody.innerHTML += `
+                    // 4. ROUND 1 LIVE SCORE
+                    // We specifically look at the first round linescore object
+                    let r1Score = "E";
+                    if (p.linescores && p.linescores[0]) {
+                        r1Score = p.linescores[0].displayValue || "E";
+                    }
+
+                    // Format zero as "E"
+                    if (r1Score === "0" || r1Score === 0) r1Score = "E";
+
+                    // Red color logic for under-par
+                    const isUnder = String(r1Score).includes('-');
+                    const scoreClass = isUnder ? 'under-par' : '';
+
+                    // Create the Row
+                    const row = `
                         <tr>
-                            <td class="pos-cell">${position}</td>
-                            <td>
-                                <span class="player-name">${p.athlete.displayName}</span>
-                            </td>
-                            <td class="thru-cell">${thru}</td>
-                            <td class="score-cell ${scoreClass}">${liveScore === "0" ? "E" : liveScore}</td>
+                            <td class="col-pos">${pos}</td>
+                            <td class="col-player"><span class="player-name">${name}</span></td>
+                            <td class="col-thru">${thru}</td>
+                            <td class="col-score ${scoreClass}">${r1Score}</td>
                         </tr>
                     `;
+                    tbody.innerHTML += row;
                 });
-            } catch (e) {
-                console.error("Fetch Error:", e);
-                document.getElementById('table-body').innerHTML = `<tr><td colspan="4" class="loading">Leaderboard is currently unavailable.</td></tr>`;
+
+            } catch (error) {
+                console.error("Critical Fetch Error:", error);
+                document.getElementById('leaderboard-body').innerHTML = `<tr><td colspan="4" class="loading-state">Leaderboard data unavailable. Check back soon.</td></tr>`;
             }
         }
 
-        // Initial fetch
-        fetchScores();
-        
-        // Refresh every 30 seconds for live feel
-        setInterval(fetchScores, 30000); 
+        // Initial Load
+        fetchMastersData();
+
+        // Refresh every 30 seconds
+        setInterval(fetchMastersData, 30000);
     </script>
 </body>
 </html>
