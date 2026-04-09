@@ -20,7 +20,6 @@
             color: var(--text-dark);
         }
 
-        /* Simplified Header */
         .header {
             background: #fff;
             border-bottom: 1px solid var(--border);
@@ -35,29 +34,8 @@
 
         .logo { height: 35px; }
 
-        .live-label {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #666;
-            display: flex;
-            align-items: center;
-        }
-
-        .dot {
-            height: 6px; width: 6px;
-            background: var(--score-red);
-            border-radius: 50%;
-            margin-right: 6px;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
-
-        /* Lean Table */
         .container {
-            max-width: 700px;
+            max-width: 800px;
             margin: 20px auto;
             padding: 0 15px;
         }
@@ -91,26 +69,16 @@
         }
 
         td {
-            padding: 12px 15px;
+            padding: 14px 15px;
             border-bottom: 1px solid var(--border);
             font-size: 15px;
         }
 
-        .pos { font-weight: 700; color: #666; width: 50px; }
-        
-        .player-info { display: flex; align-items: center; }
-        .player-img { 
-            width: 32px; height: 32px; 
-            border-radius: 50%; 
-            margin-right: 12px; 
-            background: #f0f0f0;
-        }
-        .player-name { font-family: 'IBM Plex Serif', serif; font-weight: 600; }
-
-        .score { font-weight: 700; text-align: right; }
+        .pos-cell { font-weight: 700; color: #666; width: 60px; }
+        .player-name { font-family: 'IBM Plex Serif', serif; font-weight: 600; font-size: 16px; }
+        .score-cell { font-weight: 700; text-align: right; font-size: 16px; width: 100px; }
+        .thru-cell { color: #666; text-align: right; font-size: 14px; }
         .under-par { color: var(--score-red); }
-
-        .thru { color: #666; font-size: 13px; text-align: right; }
 
         .loading { padding: 40px; text-align: center; color: #999; }
     </style>
@@ -119,7 +87,6 @@
 
     <div class="header">
         <img src="https://upload.wikimedia.org/wikipedia/en/thumb/7/7e/Masters_Tournament_logo.svg/1200px-Masters_Tournament_logo.svg.png" class="logo">
-        <div class="live-label"><span class="dot"></span> Live</div>
     </div>
 
     <div class="container">
@@ -149,43 +116,53 @@
             try {
                 const response = await fetch(API_URL);
                 const data = await response.json();
+                
+                if (!data.events || data.events.length === 0) return;
+
                 const event = data.events[0];
                 const players = event.competitions[0].competitors;
 
                 document.getElementById('event-name').innerText = event.name;
 
-                // Sort players by position
-                players.sort((a, b) => (a.status.position.sortOrder || 0) - (b.status.position.sortOrder || 0));
-
                 const tbody = document.getElementById('table-body');
                 tbody.innerHTML = '';
 
                 players.forEach(p => {
-                    const scoreVal = p.score;
-                    const scoreClass = parseInt(scoreVal) < 0 ? 'under-par' : '';
-                    const scoreText = scoreVal === "0" ? "E" : (parseInt(scoreVal) > 0 ? `+${scoreVal}` : scoreVal);
+                    // 1. FIX POSITION: Use displayValue or abbreviation
+                    const position = p.status?.position?.abbreviation || p.status?.position?.displayName || "-";
+
+                    // 2. FIX TOTAL SCORE: Handle if it's an object or string
+                    let displayScore = "E";
+                    if (p.score) {
+                        displayScore = (typeof p.score === 'object') ? p.score.displayValue : p.score;
+                    }
+                    
+                    // Style score (Red if under par)
+                    const isUnderPar = displayScore.includes('-') || (parseInt(displayScore) < 0);
+                    const scoreClass = isUnderPar ? 'under-par' : '';
+
+                    // 3. FIX THRU:
+                    const thru = p.status?.displayValue || "-";
 
                     tbody.innerHTML += `
                         <tr>
-                            <td class="pos">${p.status.position.abbreviation || '-'}</td>
+                            <td class="pos-cell">${position}</td>
                             <td>
-                                <div class="player-info">
-                                    <img class="player-img" src="${p.athlete.headshot || ''}" onerror="this.style.display='none'">
-                                    <span class="player-name">${p.athlete.displayName}</span>
-                                </div>
+                                <span class="player-name">${p.athlete.displayName}</span>
                             </td>
-                            <td class="thru">${p.status.displayValue || '-'}</td>
-                            <td class="score ${scoreClass}">${scoreText}</td>
+                            <td class="thru-cell">${thru}</td>
+                            <td class="score-cell ${scoreClass}">${displayScore === "0" ? "E" : displayScore}</td>
                         </tr>
                     `;
                 });
             } catch (e) {
-                document.getElementById('table-body').innerHTML = `<tr><td colspan="4" class="loading">Tournament currently unavailable.</td></tr>`;
+                console.error(e);
+                document.getElementById('table-body').innerHTML = `<tr><td colspan="4" class="loading">Data currently unavailable.</td></tr>`;
             }
         }
 
         fetchScores();
-        setInterval(fetchScores, 60000); // Update every minute
+        setInterval(fetchScores, 60000); 
     </script>
 </body>
 </html>
