@@ -1,18 +1,24 @@
-const STORAGE_KEY = 'terrys-vinyl-collection';
-
 // ── State ────────────────────────────────────────────────────
-let collection = load();
+let collection = [];
 let editingId  = null;
 let pendingDeleteId = null;
 
 // ── Persistence ──────────────────────────────────────────────
-function load() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-  catch { return []; }
+async function loadCollection() {
+  try {
+    const res = await fetch('/api/collection');
+    collection = await res.json();
+  } catch {
+    collection = [];
+  }
 }
 
-function save() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(collection));
+async function saveCollection() {
+  await fetch('/api/collection', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(collection),
+  });
 }
 
 // ── DOM refs ─────────────────────────────────────────────────
@@ -37,17 +43,8 @@ const confirmDelete  = document.getElementById('confirm-delete');
 const confirmCancel  = document.getElementById('confirm-cancel');
 
 // ── Render ───────────────────────────────────────────────────
-function discColors() {
-  const palettes = [
-    ['#1a1a2e','#e94560'], ['#0f3460','#e94560'], ['#533483','#e8b86d'],
-    ['#2d4a22','#a8d5a2'], ['#4a1942','#f7c5d5'], ['#1b1b2f','#e43f5a'],
-    ['#16213e','#0f3460'], ['#3d2b1f','#c4a882'],
-  ];
-  return palettes[Math.floor(Math.random() * palettes.length)];
-}
-
 function discSVG(record) {
-  const seed = (record.artist + record.album).split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+  const seed = (record.artist + record.album).split('').reduce((a, c) => a + c.charCodeAt(0), 0);
   const palette = [
     ['#1a1a2e','#e94560'], ['#0f3460','#e94560'], ['#533483','#e8b86d'],
     ['#2d4a22','#a8d5a2'], ['#4a1942','#f7c5d5'], ['#1b1b2f','#e43f5a'],
@@ -71,13 +68,10 @@ function renderCard(record) {
   card.className = 'record-card';
   card.dataset.id = record.id;
 
-  const meta = [record.year, record.genre].filter(Boolean).map(
-    v => `<span class="tag">${v}</span>`
-  ).join('');
+  const meta = [record.year, record.genre].filter(Boolean)
+    .map(v => `<span class="tag">${v}</span>`).join('');
 
-  const notes = record.notes
-    ? `<p class="card-notes">${record.notes}</p>`
-    : '';
+  const notes = record.notes ? `<p class="card-notes">${record.notes}</p>` : '';
 
   card.innerHTML = `
     <div class="card-disc">${discSVG(record)}</div>
@@ -88,8 +82,8 @@ function renderCard(record) {
       ${notes}
     </div>
     <div class="card-actions">
-      <button class="btn-secondary edit-btn" data-id="${record.id}">Edit</button>
-      <button class="btn-danger delete-btn"  data-id="${record.id}">Remove</button>
+      <button class="btn-secondary edit-btn"   data-id="${record.id}">Edit</button>
+      <button class="btn-danger   delete-btn"  data-id="${record.id}">Remove</button>
     </div>`;
 
   return card;
@@ -110,9 +104,9 @@ function render() {
   collectionEl.innerHTML = '';
   filtered.forEach(r => collectionEl.appendChild(renderCard(r)));
 
-  const count = filtered.length;
   const total = collection.length;
-  recordCount.textContent = query || genre
+  const count = filtered.length;
+  recordCount.textContent = (query || genre)
     ? `${count} of ${total} record${total !== 1 ? 's' : ''}`
     : `${total} record${total !== 1 ? 's' : ''}`;
 
@@ -159,19 +153,19 @@ function closeConfirm() {
 }
 
 // ── CRUD ─────────────────────────────────────────────────────
-form.addEventListener('submit', e => {
+form.addEventListener('submit', async e => {
   e.preventDefault();
   const artist = fArtist.value.trim();
   const album  = fAlbum.value.trim();
   if (!artist || !album) return;
 
   const record = {
-    id:     editingId || crypto.randomUUID(),
+    id:      editingId || crypto.randomUUID(),
     artist,
     album,
-    year:   fYear.value.trim(),
-    genre:  fGenre.value.trim(),
-    notes:  fNotes.value.trim(),
+    year:    fYear.value.trim(),
+    genre:   fGenre.value.trim(),
+    notes:   fNotes.value.trim(),
     addedAt: editingId
       ? collection.find(r => r.id === editingId)?.addedAt
       : new Date().toISOString(),
@@ -183,7 +177,7 @@ form.addEventListener('submit', e => {
     collection.push(record);
   }
 
-  save();
+  await saveCollection();
   refreshGenreFilter();
   render();
   closeModal();
@@ -192,21 +186,14 @@ form.addEventListener('submit', e => {
 collectionEl.addEventListener('click', e => {
   const editBtn   = e.target.closest('.edit-btn');
   const deleteBtn = e.target.closest('.delete-btn');
-
-  if (editBtn) {
-    const rec = collection.find(r => r.id === editBtn.dataset.id);
-    if (rec) openModal(rec);
-  }
-
-  if (deleteBtn) {
-    openConfirm(deleteBtn.dataset.id);
-  }
+  if (editBtn)   openModal(collection.find(r => r.id === editBtn.dataset.id));
+  if (deleteBtn) openConfirm(deleteBtn.dataset.id);
 });
 
-confirmDelete.addEventListener('click', () => {
+confirmDelete.addEventListener('click', async () => {
   if (!pendingDeleteId) return;
   collection = collection.filter(r => r.id !== pendingDeleteId);
-  save();
+  await saveCollection();
   refreshGenreFilter();
   render();
   closeConfirm();
@@ -217,10 +204,10 @@ document.getElementById('add-btn').addEventListener('click', () => openModal());
 document.getElementById('cancel-btn').addEventListener('click', closeModal);
 confirmCancel.addEventListener('click', closeConfirm);
 
-modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+modal.addEventListener('click',        e => { if (e.target === modal)        closeModal(); });
 confirmModal.addEventListener('click', e => { if (e.target === confirmModal) closeConfirm(); });
 
-searchInput.addEventListener('input', render);
+searchInput.addEventListener('input',  render);
 genreFilter.addEventListener('change', render);
 
 document.addEventListener('keydown', e => {
@@ -228,5 +215,7 @@ document.addEventListener('keydown', e => {
 });
 
 // ── Init ─────────────────────────────────────────────────────
-refreshGenreFilter();
-render();
+loadCollection().then(() => {
+  refreshGenreFilter();
+  render();
+});

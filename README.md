@@ -1,6 +1,6 @@
 # Terry's Vinyl
 
-A personal vinyl record collection tracker, built as a static web app hosted on GitHub Pages.
+A personal vinyl record collection tracker — runs locally via Node.js, stores data in `data.json`.
 
 ## Features
 
@@ -8,7 +8,7 @@ A personal vinyl record collection tracker, built as a static web app hosted on 
 - **Edit / remove** — update any record or remove it from the collection
 - **Search** — filter by artist or album name in real time
 - **Genre filter** — dropdown auto-populates from the genres in your collection
-- **Persistent storage** — collection saved in the browser via `localStorage`
+- **File-based storage** — collection saved to `data.json` in the project folder
 - **Visual disc art** — each record gets a unique colour disc based on its title
 
 ## Project Structure
@@ -17,13 +17,25 @@ A personal vinyl record collection tracker, built as a static web app hosted on 
 ├── index.html   — App shell and modal markup
 ├── style.css    — All styling (dark vinyl theme)
 ├── app.js       — Collection logic, CRUD, rendering
+├── server.js    — Local Node.js HTTP server + file API
+├── data.json    — Collection data (auto-updated on every change)
+├── package.json — Project metadata and start script
 ├── README.md    — This file
 └── CHANGELOG.md — Version history
 ```
 
-## Usage
+## Getting Started
 
-Open the site in a browser (GitHub Pages URL or local file). No build step or server required.
+**Requirements:** Node.js 14 or higher.
+
+```bash
+# Install nothing — no dependencies required
+npm start
+```
+
+Then open **http://localhost:3000** in your browser.
+
+## Usage
 
 | Action | How |
 |---|---|
@@ -33,10 +45,6 @@ Open the site in a browser (GitHub Pages URL or local file). No build step or se
 | Search | Type in the search box |
 | Filter by genre | Use the genre dropdown |
 
-## Local Development
-
-Just open `index.html` in a browser — no dependencies or build tools needed.
-
 ## Data
 
-All data is stored in `localStorage` under the key `terrys-vinyl-collection`. Clearing browser storage will reset the collection. To back up or transfer your collection, you can copy the raw JSON from DevTools → Application → Local Storage.
+The collection is stored in `data.json` at the root of the project. Every add, edit, or remove is written to disk immediately. You can open, edit, or back up `data.json` directly in any text editor.
