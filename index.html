@@ -1,246 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masters 2026 | Live Round 1</title>
-    
-    <!-- Masters Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@600&family=Inter:wght@400;700&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --masters-green: #006747;
-            --masters-yellow: #ffcc00;
-            --text-dark: #1a1a1a;
-            --score-red: #d0021b;
-            --border: #e0e0e0;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f2f2f2;
-            margin: 0;
-            color: var(--text-dark);
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Header / Navbar */
-        .navbar {
-            background: #fff;
-            padding: 15px;
-            text-align: center;
-            border-bottom: 2px solid var(--masters-green);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .logo { height: 45px; }
-
-        .container {
-            max-width: 850px;
-            margin: 25px auto;
-            padding: 0 15px;
-        }
-
-        h1 {
-            font-family: 'IBM Plex Serif', serif;
-            font-size: 32px;
-            color: var(--masters-green);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        /* Table Card */
-        .leaderboard-card {
-            background: #fff;
-            border-radius: 4px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            overflow: hidden;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
-        }
-
-        th {
-            background: #fff;
-            padding: 16px;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #777;
-            border-bottom: 3px solid var(--masters-green);
-            text-align: left;
-        }
-
-        td {
-            padding: 16px;
-            border-bottom: 1px solid var(--border);
-            font-size: 16px;
-        }
-
-        tr:nth-child(even) { background-color: #fafafa; }
-        tr:hover { background-color: #f4f8f4; }
-
-        /* Column Specifics */
-        .col-pos { width: 15%; font-weight: 700; color: #555; }
-        .col-player { width: 45%; }
-        .col-thru { width: 20%; text-align: right; color: #666; font-size: 14px; }
-        .col-score { width: 20%; text-align: right; font-weight: 800; font-size: 18px; }
-
-        .player-name {
-            font-family: 'IBM Plex Serif', serif;
-            font-weight: 600;
-            color: #111;
-        }
-
-        .under-par { color: var(--score-red); }
-
-        .loading-state {
-            padding: 80px;
-            text-align: center;
-            color: #999;
-            font-style: italic;
-        }
-
-        @media (max-width: 600px) {
-            h1 { font-size: 24px; }
-            td, th { padding: 12px 10px; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terry's Vinyl</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-    <nav class="navbar">
-        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/7/7e/Masters_Tournament_logo.svg/1200px-Masters_Tournament_logo.svg.png" alt="Masters Logo" class="logo">
-    </nav>
-
-    <div class="container">
-        <h1 id="tournament-title">Leaderboard</h1>
-        
-        <div class="leaderboard-card">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="col-pos">Pos</th>
-                        <th class="col-player">Player</th>
-                        <th class="col-thru">Thru</th>
-                        <th class="col-score">R1 Score</th>
-                    </tr>
-                </thead>
-                <tbody id="leaderboard-body">
-                    <tr>
-                        <td colspan="4" class="loading-state">Synchronizing with Augusta National...</td>
-                    </tr>
-                </tbody>
-            </table>
+  <header>
+    <div class="header-inner">
+      <div class="logo-block">
+        <span class="logo-disc" aria-hidden="true"></span>
+        <div>
+          <h1>Terry's Vinyl</h1>
+          <p class="tagline">A personal record collection</p>
         </div>
+      </div>
+      <button id="add-btn" class="btn-primary">+ Add Record</button>
     </div>
+  </header>
 
-    <script>
-        const API_URL = 'https://site.api.espn.com/apis/site/v2/sports/golf/leaderboard?league=pga';
+  <main>
+    <section class="controls">
+      <input type="text" id="search" placeholder="Search artist or album…" aria-label="Search records" />
+      <select id="filter-genre" aria-label="Filter by genre">
+        <option value="">All Genres</option>
+      </select>
+      <span id="record-count" class="record-count"></span>
+    </section>
 
-        async function fetchMastersData() {
-            try {
-                const response = await fetch(API_URL);
-                const data = await response.json();
-                
-                if (!data.events || data.events.length === 0) return;
+    <section id="collection" class="collection-grid" aria-label="Vinyl collection"></section>
 
-                const event = data.events[0];
-                const competitors = event.competitions[0].competitors;
+    <p id="empty-msg" class="empty-msg hidden">No records found. Add one to get started!</p>
+  </main>
 
-                // --- STRICT NUMERIC SORTING (1 to 100) ---
-                competitors.sort((a, b) => {
-                   competitors.sort((a, b) => {
-    const getNumericScore = (player) => {
-        // Use numeric round score if available
-        if (player.linescores && player.linescores[0] && typeof player.linescores[0].value === 'number') {
-            return player.linescores[0].value;
-        }
+  <!-- Add / Edit Modal -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <h2 id="modal-title">Add Record</h2>
+      <form id="record-form" novalidate>
+        <label>
+          Artist <span class="required">*</span>
+          <input type="text" id="f-artist" required placeholder="e.g. Fleetwood Mac" />
+        </label>
+        <label>
+          Album <span class="required">*</span>
+          <input type="text" id="f-album" required placeholder="e.g. Rumours" />
+        </label>
+        <label>
+          Year
+          <input type="number" id="f-year" min="1900" max="2099" placeholder="e.g. 1977" />
+        </label>
+        <label>
+          Genre
+          <input type="text" id="f-genre" placeholder="e.g. Rock" />
+        </label>
+        <label>
+          Notes
+          <textarea id="f-notes" rows="3" placeholder="Condition, pressing info, personal notes…"></textarea>
+        </label>
+        <div class="modal-actions">
+          <button type="button" id="cancel-btn" class="btn-secondary">Cancel</button>
+          <button type="submit" class="btn-primary" id="save-btn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-        // Fallbacks
-        if (player.score === "E") return 0;
+  <!-- Delete Confirm Modal -->
+  <div id="confirm-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card modal-card--sm">
+      <h2>Remove Record?</h2>
+      <p id="confirm-msg"></p>
+      <div class="modal-actions">
+        <button id="confirm-cancel" class="btn-secondary">Cancel</button>
+        <button id="confirm-delete" class="btn-danger">Remove</button>
+      </div>
+    </div>
+  </div>
 
-        const parsed = parseFloat(player.score);
-        return isNaN(parsed) ? 99 : parsed; // Push invalid scores to bottom
-    };
-
-    const scoreA = getNumericScore(a);
-    const scoreB = getNumericScore(b);
-
-    // 1. Sort by score (LOWEST FIRST)
-    if (scoreA !== scoreB) {
-        return scoreA - scoreB;
-    }
-
-    // 2. Tie‑breaker: ESPN official position order
-    const sortA = parseInt(a.status?.position?.sortOrder) || 999;
-    const sortB = parseInt(b.status?.position?.sortOrder) || 999;
-    return sortA - sortB;
-});
-
-                document.getElementById('tournament-title').innerText = event.name;
-
-                const tbody = document.getElementById('leaderboard-body');
-                tbody.innerHTML = '';
-
-                competitors.forEach(p => {
-                    // 1. POSITION FIX
-                    // Chain: Abbreviation (T1) -> Rank (1) -> sortOrder -> "-"
-                    let pos = p.status?.position?.abbreviation || 
-                              p.status?.position?.displayName || 
-                              p.status?.position?.sortOrder || 
-                              p.currenctRank || "-";
-
-                    // 2. PLAYER NAME
-                    const name = p.athlete?.displayName || "Unknown Player";
-
-                    // 3. THRU STATUS
-                    const thru = p.status?.displayValue || "-";
-
-                    // 4. ROUND 1 LIVE SCORE
-                    // We specifically look at the first round linescore object
-                    let r1Score = "E";
-                    if (p.linescores && p.linescores[0]) {
-                        r1Score = p.linescores[0].displayValue || "E";
-                    }
-
-                    // Format zero as "E"
-                    if (r1Score === "0" || r1Score === 0) r1Score = "E";
-
-                    // Red color logic for under-par
-                    const isUnder = String(r1Score).includes('-');
-                    const scoreClass = isUnder ? 'under-par' : '';
-
-                    // Create the Row
-                    const row = `
-                        <tr>
-                            <td class="col-pos">${pos}</td>
-                            <td class="col-player"><span class="player-name">${name}</span></td>
-                            <td class="col-thru">${thru}</td>
-                            <td class="col-score ${scoreClass}">${r1Score}</td>
-                        </tr>
-                    `;
-                    tbody.innerHTML += row;
-                });
-
-            } catch (error) {
-                console.error("Critical Fetch Error:", error);
-                document.getElementById('leaderboard-body').innerHTML = `<tr><td colspan="4" class="loading-state">Leaderboard data unavailable. Check back soon.</td></tr>`;
-            }
-        }
-
-        // Initial Load
-        fetchMastersData();
-
-        // Refresh every 30 seconds
-        setInterval(fetchMastersData, 30000);
-    </script>
+  <script src="app.js"></script>
 </body>
 </html>
