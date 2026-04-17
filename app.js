@@ -49,6 +49,10 @@ function sorted(arr) {
   const copy = [...arr];
   if (currentSort === 'recent') {
     copy.sort((a, b) => new Date(b.addedAt || 0) - new Date(a.addedAt || 0));
+  } else if (currentSort === 'artist') {
+    copy.sort((a, b) => a.artist.localeCompare(b.artist));
+  } else if (currentSort === 'album') {
+    copy.sort((a, b) => a.album.localeCompare(b.album));
   }
   return copy;
 }
@@ -57,9 +61,9 @@ function sorted(arr) {
 function discSVG(record) {
   const seed = (record.artist + record.album).split('').reduce((a, c) => a + c.charCodeAt(0), 0);
   const palette = [
-    ['#1a1a2e','#e94560'], ['#0f3460','#e94560'], ['#533483','#e8b86d'],
-    ['#2d4a22','#a8d5a2'], ['#4a1942','#f7c5d5'], ['#1b1b2f','#e43f5a'],
-    ['#16213e','#0f3460'], ['#3d2b1f','#c4a882'],
+    ['#1a003a','#FF3CAC'], ['#00204a','#00D4FF'], ['#1a3a00','#AAFF00'],
+    ['#3a0010','#FF6B1A'], ['#1a1a00','#FFD700'], ['#00003a','#7B61FF'],
+    ['#3a001a','#FF61A6'], ['#003a3a','#00FFD1'],
   ];
   const [bg, accent] = palette[seed % palette.length];
   return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
@@ -85,7 +89,10 @@ function renderShelf(records) {
     el.className = 'record-cover';
     el.dataset.id = r.id;
     el.innerHTML = `
-      <div class="cover-art">${discSVG(r)}</div>
+      <div class="cover-art">
+        ${discSVG(r)}
+        ${r.skunkRecommended ? '<span class="skunk-badge">🦨</span>' : ''}
+      </div>
       <div class="cover-label">
         <span class="cover-album">${r.album}</span>
         <span class="cover-artist">${r.artist}</span>
@@ -103,7 +110,7 @@ function renderList(records) {
   records.forEach(r => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td class="list-artist">${r.artist}</td>
+      <td class="list-artist">${r.artist}${r.skunkRecommended ? ' 🦨' : ''}</td>
       <td class="list-album">${r.album}</td>
       <td class="list-year">${r.year || '—'}</td>
       <td class="list-genre">${r.genre || '—'}</td>
@@ -175,7 +182,8 @@ function openDetail(id) {
   detailRecordId = id;
 
   document.getElementById('detail-disc').innerHTML   = discSVG(r);
-  document.getElementById('detail-artist').textContent = r.artist;
+  document.getElementById('detail-artist').textContent = r.skunkRecommended
+    ? `🦨 ${r.artist}` : r.artist;
   document.getElementById('detail-album').textContent  = r.album;
 
   const meta = [r.year, r.genre].filter(Boolean)
@@ -217,11 +225,12 @@ document.getElementById('detail-delete').addEventListener('click', () => {
 function openModal(record = null) {
   editingId = record ? record.id : null;
   document.getElementById('modal-title').textContent = record ? 'Edit Record' : 'Add Record';
-  document.getElementById('f-artist').value = record?.artist || '';
-  document.getElementById('f-album').value  = record?.album  || '';
-  document.getElementById('f-year').value   = record?.year   || '';
-  document.getElementById('f-genre').value  = record?.genre  || '';
-  document.getElementById('f-notes').value  = record?.notes  || '';
+  document.getElementById('f-artist').value   = record?.artist || '';
+  document.getElementById('f-album').value    = record?.album  || '';
+  document.getElementById('f-year').value     = record?.year   || '';
+  document.getElementById('f-genre').value    = record?.genre  || '';
+  document.getElementById('f-notes').value    = record?.notes  || '';
+  document.getElementById('f-skunk').checked  = record?.skunkRecommended || false;
   document.getElementById('modal').classList.remove('hidden');
   document.getElementById('f-artist').focus();
 }
@@ -257,9 +266,10 @@ document.getElementById('record-form').addEventListener('submit', async e => {
     id:      editingId || crypto.randomUUID(),
     artist,
     album,
-    year:    document.getElementById('f-year').value.trim(),
-    genre:   document.getElementById('f-genre').value.trim(),
-    notes:   document.getElementById('f-notes').value.trim(),
+    year:             document.getElementById('f-year').value.trim(),
+    genre:            document.getElementById('f-genre').value.trim(),
+    notes:            document.getElementById('f-notes').value.trim(),
+    skunkRecommended: document.getElementById('f-skunk').checked,
     addedAt: editingId
       ? collection.find(r => r.id === editingId)?.addedAt
       : new Date().toISOString(),

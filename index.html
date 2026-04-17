@@ -32,6 +32,8 @@
       </select>
       <select id="sort-select" aria-label="Sort records">
         <option value="recent">Most Recently Added</option>
+        <option value="artist">Artist A–Z</option>
+        <option value="album">Album A–Z</option>
       </select>
       <div class="view-toggle" role="group" aria-label="View mode">
         <button id="view-shelf" class="view-btn active" title="Shelf view">
@@ -148,6 +150,10 @@
         <label>
           Notes
           <textarea id="f-notes" rows="3" placeholder="Condition, pressing info, personal notes…"></textarea>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="f-skunk" />
+          <span>🦨 Skunk Recommended</span>
         </label>
         <div class="modal-actions">
           <button type="button" id="cancel-btn" class="btn-secondary">Cancel</button>

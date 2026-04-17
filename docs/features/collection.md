@@ -17,13 +17,14 @@ Each record stored in `data.json`:
 
 ```json
 {
-  "id":      "uuid-v4",
-  "artist":  "string (required)",
-  "album":   "string (required)",
-  "year":    "string (optional, e.g. '1977')",
-  "genre":   "string (optional, e.g. 'Rock')",
-  "notes":   "string (optional)",
-  "addedAt": "ISO 8601 timestamp"
+  "id":               "uuid-v4",
+  "artist":           "string (required)",
+  "album":            "string (required)",
+  "year":             "string (optional, e.g. '1977')",
+  "genre":            "string (optional, e.g. 'Rock')",
+  "notes":            "string (optional)",
+  "skunkRecommended": "boolean (optional, defaults false)",
+  "addedAt":          "ISO 8601 timestamp"
 }
 ```
 
