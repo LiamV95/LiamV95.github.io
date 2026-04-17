@@ -304,6 +304,17 @@ main {
   height: 100%;
 }
 
+.skunk-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-size: 1.3rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.9));
+  z-index: 2;
+  pointer-events: none;
+}
+
 .cover-label {
   background: linear-gradient(180deg, #1E1008 0%, #150A04 100%);
   padding: 8px 10px 10px;
@@ -529,6 +540,26 @@ main {
 }
 
 .required { color: var(--accent); }
+
+.checkbox-label {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 10px !important;
+  cursor: pointer;
+  font-size: 0.9rem !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  color: var(--text) !important;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
 
 .modal-actions {
   display: flex;

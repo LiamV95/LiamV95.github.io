@@ -6,6 +6,20 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.5.0] — 2026-04-17
+
+### Added
+- `skunkRecommended` boolean field on record data model
+- 🦨 skunk badge overlaid on shelf covers and list view artist names for recommended records
+- 🦨 shown in detail modal artist name when applicable
+- Skunk Recommended checkbox in add/edit form
+- Populated collection with 34 records; 6 marked as skunk recommended with recommender in notes
+
+### Fixed
+- Encoding corrected: `Hermanos Gutiérrez`, `Rüfüs Du Sol`
+
+---
+
 ## [1.4.2] — 2026-04-17
 
 ### Changed

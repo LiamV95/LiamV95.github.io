@@ -1,1 +1,342 @@
-[]
+[
+  {
+    "artist": "The Wombats",
+    "album": "This Modern Glitch (10th Anniversary Edition)",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "eab35943-e945-426d-ba42-efd2475dda6c",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "The Beatles",
+    "album": "Abbey Road",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "89d785f6-2fbe-4f6b-a5a2-23e16a87120d",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Crash Test Dummies",
+    "album": "God Shuffled His Feet",
+    "skunkRecommended": true,
+    "notes": "Recommended by EFG",
+    "id": "c0231123-6734-4003-b81a-d611c2b6bd30",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Paolo Nutini",
+    "album": "Sunny Side Up",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "4315cc6e-94ef-44ae-975a-f52d694bda95",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "King Crimson",
+    "album": "In The Court Of The Crimson King (An Observation By King Crimson)",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "733aff1a-aa44-49de-bc97-c11abbf9b42c",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Oasis",
+    "album": "(What's The Story) Morning Glory?",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "a6204996-dc0a-4d5f-b4ad-b0f11e2e3a29",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Foster The People",
+    "album": "Torches X",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "e9f02840-ad04-4bd3-bcec-bc212a02c155",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Tame Impala",
+    "album": "Deadbeat",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "492f2375-1cd3-40ae-97ff-2784f383b1f5",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Daft Punk",
+    "album": "Random Access Memories (10th Anniversary Edition)",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "24028ebe-4db2-4599-985d-b5d442e3ec75",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Khruangbin & Leon Bridges",
+    "album": "Texas Sun",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "214ac436-f2da-4c0f-9f43-4976f9ef1016",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Dr. Dre",
+    "album": "The Chronic",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "e9994442-04fa-44b3-8ba7-6b67ff331451",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Chet Faker",
+    "album": "Built On Glass",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "429aeaff-e071-4a48-97c6-c10237638124",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Hermanos Gutiérrez",
+    "album": "El Bueno Y El Malo",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "89229448-172a-4777-a53a-420c032a42a1",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Hermitude",
+    "album": "Mirror Mountain",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "eaf368ec-5b71-448c-9231-79c1e10a2c9a",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Daisy Jones & The Six",
+    "album": "Aurora",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "01d2a570-57e7-4aec-9e38-48e14f32062b",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Mansionair",
+    "album": "Shadowboxer",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "6e602590-0ded-4a29-8160-ad8ccbb9c17f",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "alt-J",
+    "album": "An Awesome Wave",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "bfa06999-ccf0-4599-a4fe-00314beaf8e9",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Tame Impala",
+    "album": "Currents",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "566e923c-b15f-4110-8528-629cbd3d2808",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Simon & Garfunkel",
+    "album": "Simon And Garfunkel's Greatest Hits",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "7c9cb09f-eb6e-44a9-8297-55166c9be3a1",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "M83",
+    "album": "Hurry Up, We're Dreaming.",
+    "skunkRecommended": true,
+    "notes": "Recommended by Niela",
+    "id": "a870e49e-bd7a-41de-bae5-91ea1c6df196",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Odesza",
+    "album": "The Last Goodbye Tour Live",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "c3a1aebb-041d-4c79-a11d-dd2787fd305d",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Gorillaz",
+    "album": "Demon Days",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "df4a8993-b11a-4191-9292-6eae23c93fce",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Cymande",
+    "album": "Cymande",
+    "skunkRecommended": true,
+    "notes": "Recommended by Cian",
+    "id": "4b143da7-7524-423b-ab6c-d89ee53a6633",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Michael Kiwanuka",
+    "album": "Love & Hate",
+    "skunkRecommended": true,
+    "notes": "Recommended by Denz",
+    "id": "019e8346-edb6-4efc-856a-3bd20222970d",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Michael Kiwanuka",
+    "album": "Home Again",
+    "skunkRecommended": true,
+    "notes": "Recommended by Denz",
+    "id": "98ab48b3-01e7-4aa6-92ce-fbcb130a428f",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Kaytranada",
+    "album": "Timeless",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "40b4e687-9a7d-43ee-b3d0-4c683b6c9aae",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Rüfüs Du Sol",
+    "album": "Inhale / Exhale",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "1c481c20-1c52-43ed-9ccc-a788a2f1368f",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "The Stone Roses",
+    "album": "The Stone Roses",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "39a53108-f20b-4ddd-a6c7-f0d752ff2e7f",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Mac Miller",
+    "album": "Swimming",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "be3321b4-0726-453c-bb8b-dce62d2da601",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Red Hot Chili Peppers",
+    "album": "Californication",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "0404781d-e62b-4153-8888-2e5318f65fff",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Mac Miller",
+    "album": "Balloonerism",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "ff74854e-4e57-431e-b0c2-fb2cb2517965",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Gil Scott-Heron",
+    "album": "I'm New Here",
+    "skunkRecommended": true,
+    "notes": "Recommended by Alice",
+    "id": "b2dd4219-b18b-483d-81c8-3bb6d8bb7cc6",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "The XX",
+    "album": "XX",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "ba201276-ff44-4199-bb78-14248a9df62f",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  },
+  {
+    "artist": "Jamie xx",
+    "album": "In Colour",
+    "skunkRecommended": false,
+    "notes": "",
+    "id": "479754bd-5331-401b-bc5f-cb53755b31fb",
+    "year": "",
+    "genre": "",
+    "addedAt": "2026-04-17T22:34:39.482Z"
+  }
+]
