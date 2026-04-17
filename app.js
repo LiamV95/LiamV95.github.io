@@ -49,6 +49,10 @@ function sorted(arr) {
   const copy = [...arr];
   if (currentSort === 'recent') {
     copy.sort((a, b) => new Date(b.addedAt || 0) - new Date(a.addedAt || 0));
+  } else if (currentSort === 'artist') {
+    copy.sort((a, b) => a.artist.localeCompare(b.artist));
+  } else if (currentSort === 'album') {
+    copy.sort((a, b) => a.album.localeCompare(b.album));
   }
   return copy;
 }

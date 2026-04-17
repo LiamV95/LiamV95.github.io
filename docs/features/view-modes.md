@@ -32,8 +32,8 @@ The collection can be viewed in two modes: a **shelf view** (default) that prese
 | Value | Behaviour |
 |---|---|
 | `recent` (default) | Sort by `addedAt` descending — newest first |
-
-Additional sort options may be added in future.
+| `artist` | Artist name A–Z (`localeCompare`) |
+| `album` | Album name A–Z (`localeCompare`) |
 
 ---
 
