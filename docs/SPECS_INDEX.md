@@ -9,6 +9,8 @@ Master index of all feature and architecture specifications for Terry's Vinyl.
 | Feature | Spec file | Status |
 |---|---|---|
 | Vinyl Collection (CRUD) | `docs/features/collection.md` | ✅ Live |
+| Public view (read-only mode) | `docs/features/public-view.md` | 🚧 In Progress |
+| Album recommendations | `docs/features/recommendations.md` | 🚧 In Progress |
 
 ---
 

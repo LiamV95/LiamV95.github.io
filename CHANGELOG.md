@@ -6,6 +6,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.3.0] — 2026-04-17
+
+### Added
+- Public read-only mode: app detects whether it's running locally or as a static site
+- In public mode: CRUD controls hidden, collection loaded from static `data.json`
+- Recommendation section (public mode only): friends can submit artist, album, and their name
+- Recommendation form opens a pre-filled `mailto:` to liam.venables95@gmail.com
+- New specs: `docs/features/public-view.md`, `docs/features/recommendations.md`
+
+---
+
 ## [1.2.0] — 2026-04-17
 
 ### Added

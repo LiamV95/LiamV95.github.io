@@ -34,6 +34,28 @@
     <section id="collection" class="collection-grid" aria-label="Vinyl collection"></section>
 
     <p id="empty-msg" class="empty-msg hidden">No records found. Add one to get started!</p>
+
+    <section id="recommend-section" class="recommend-section hidden">
+      <h2>Recommend an album</h2>
+      <p>Heard something Terry needs in his collection? Send him a recommendation.</p>
+      <form id="recommend-form" novalidate>
+        <div class="recommend-fields">
+          <label>
+            Your name <span class="required">*</span>
+            <input type="text" id="r-name" required placeholder="e.g. Alex" />
+          </label>
+          <label>
+            Artist <span class="required">*</span>
+            <input type="text" id="r-artist" required placeholder="e.g. Radiohead" />
+          </label>
+          <label>
+            Album <span class="required">*</span>
+            <input type="text" id="r-album" required placeholder="e.g. OK Computer" />
+          </label>
+        </div>
+        <button type="submit" class="btn-primary">Send Recommendation →</button>
+      </form>
+    </section>
   </main>
 
   <!-- Add / Edit Modal -->

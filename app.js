@@ -1,15 +1,33 @@
+const RECOMMEND_EMAIL = 'liam.venables95@gmail.com';
+
 // ── State ────────────────────────────────────────────────────
 let collection = [];
 let editingId  = null;
 let pendingDeleteId = null;
+let isOwnerMode = false;
+
+// ── Mode setup ───────────────────────────────────────────────
+function setMode(mode) {
+  isOwnerMode = mode === 'owner';
+  document.getElementById('add-btn').classList.toggle('hidden', !isOwnerMode);
+  document.getElementById('recommend-section').classList.toggle('hidden', isOwnerMode);
+}
 
 // ── Persistence ──────────────────────────────────────────────
 async function loadCollection() {
   try {
     const res = await fetch('/api/collection');
+    if (!res.ok) throw new Error();
     collection = await res.json();
+    setMode('owner');
   } catch {
-    collection = [];
+    try {
+      const res = await fetch('/data.json');
+      collection = await res.json();
+    } catch {
+      collection = [];
+    }
+    setMode('public');
   }
 }
 
@@ -81,10 +99,11 @@ function renderCard(record) {
       ${meta ? `<div class="card-meta">${meta}</div>` : ''}
       ${notes}
     </div>
+    ${isOwnerMode ? `
     <div class="card-actions">
       <button class="btn-secondary edit-btn"   data-id="${record.id}">Edit</button>
       <button class="btn-danger   delete-btn"  data-id="${record.id}">Remove</button>
-    </div>`;
+    </div>` : ''}`;
 
   return card;
 }
@@ -212,6 +231,19 @@ genreFilter.addEventListener('change', render);
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeModal(); closeConfirm(); }
+});
+
+// ── Recommendations ──────────────────────────────────────────
+document.getElementById('recommend-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const name   = document.getElementById('r-name').value.trim();
+  const artist = document.getElementById('r-artist').value.trim();
+  const album  = document.getElementById('r-album').value.trim();
+  if (!name || !artist || !album) return;
+
+  const subject = encodeURIComponent(`Vinyl Recommendation: ${artist} - ${album}`);
+  const body    = encodeURIComponent(`Hey Terry,\n\n${name} thinks you'd enjoy "${album}" by ${artist}.\n\n— Sent from Terry's Vinyl`);
+  window.location.href = `mailto:${RECOMMEND_EMAIL}?subject=${subject}&body=${body}`;
 });
 
 // ── Init ─────────────────────────────────────────────────────
