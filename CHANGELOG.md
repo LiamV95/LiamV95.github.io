@@ -6,6 +6,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.4.2] — 2026-04-17
+
+### Changed
+- Vibrant colour scheme: deep purple background, bright orange accent, purple secondary glow
+- Disc art palettes updated to vivid neon colours (hot pink, cyan, lime, gold, violet)
+- Stronger ambient glow with dual orange/purple room light
+- Header glow and shelf background updated to match
+
+---
+
 ## [1.4.1] — 2026-04-17
 
 ### Added

@@ -61,9 +61,9 @@ function sorted(arr) {
 function discSVG(record) {
   const seed = (record.artist + record.album).split('').reduce((a, c) => a + c.charCodeAt(0), 0);
   const palette = [
-    ['#1a1a2e','#e94560'], ['#0f3460','#e94560'], ['#533483','#e8b86d'],
-    ['#2d4a22','#a8d5a2'], ['#4a1942','#f7c5d5'], ['#1b1b2f','#e43f5a'],
-    ['#16213e','#0f3460'], ['#3d2b1f','#c4a882'],
+    ['#1a003a','#FF3CAC'], ['#00204a','#00D4FF'], ['#1a3a00','#AAFF00'],
+    ['#3a0010','#FF6B1A'], ['#1a1a00','#FFD700'], ['#00003a','#7B61FF'],
+    ['#3a001a','#FF61A6'], ['#003a3a','#00FFD1'],
   ];
   const [bg, accent] = palette[seed % palette.length];
   return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
