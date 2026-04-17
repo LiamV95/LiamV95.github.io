@@ -1,17 +1,13 @@
 const RECOMMEND_EMAIL = 'liam.venables95@gmail.com';
 
 // ── State ────────────────────────────────────────────────────
-let collection = [];
-let editingId  = null;
+let collection      = [];
+let editingId       = null;
 let pendingDeleteId = null;
-let isOwnerMode = false;
-
-// ── Mode setup ───────────────────────────────────────────────
-function setMode(mode) {
-  isOwnerMode = mode === 'owner';
-  document.getElementById('add-btn').classList.toggle('hidden', !isOwnerMode);
-  document.getElementById('recommend-section').classList.toggle('hidden', isOwnerMode);
-}
+let isOwnerMode     = false;
+let currentView     = 'shelf';
+let currentSort     = 'recent';
+let detailRecordId  = null;
 
 // ── Persistence ──────────────────────────────────────────────
 async function loadCollection() {
@@ -39,28 +35,25 @@ async function saveCollection() {
   });
 }
 
-// ── DOM refs ─────────────────────────────────────────────────
-const collectionEl   = document.getElementById('collection');
-const emptyMsg       = document.getElementById('empty-msg');
-const recordCount    = document.getElementById('record-count');
-const searchInput    = document.getElementById('search');
-const genreFilter    = document.getElementById('filter-genre');
+// ── Mode ─────────────────────────────────────────────────────
+function setMode(mode) {
+  isOwnerMode = mode === 'owner';
+  document.getElementById('add-btn').classList.toggle('hidden', !isOwnerMode);
+  document.getElementById('recommend-section').classList.toggle('hidden', isOwnerMode);
+  const actTh = document.getElementById('list-actions-th');
+  if (actTh) actTh.textContent = isOwnerMode ? '' : '';
+}
 
-const modal          = document.getElementById('modal');
-const modalTitle     = document.getElementById('modal-title');
-const form           = document.getElementById('record-form');
-const fArtist        = document.getElementById('f-artist');
-const fAlbum         = document.getElementById('f-album');
-const fYear          = document.getElementById('f-year');
-const fGenre         = document.getElementById('f-genre');
-const fNotes         = document.getElementById('f-notes');
+// ── Sorting ──────────────────────────────────────────────────
+function sorted(arr) {
+  const copy = [...arr];
+  if (currentSort === 'recent') {
+    copy.sort((a, b) => new Date(b.addedAt || 0) - new Date(a.addedAt || 0));
+  }
+  return copy;
+}
 
-const confirmModal   = document.getElementById('confirm-modal');
-const confirmMsg     = document.getElementById('confirm-msg');
-const confirmDelete  = document.getElementById('confirm-delete');
-const confirmCancel  = document.getElementById('confirm-cancel');
-
-// ── Render ───────────────────────────────────────────────────
+// ── Disc SVG ─────────────────────────────────────────────────
 function discSVG(record) {
   const seed = (record.artist + record.album).split('').reduce((a, c) => a + c.charCodeAt(0), 0);
   const palette = [
@@ -69,132 +62,212 @@ function discSVG(record) {
     ['#16213e','#0f3460'], ['#3d2b1f','#c4a882'],
   ];
   const [bg, accent] = palette[seed % palette.length];
-
-  return `<svg class="disc-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="60" cy="60" r="58" fill="${bg}" stroke="#111" stroke-width="2"/>
-    <circle cx="60" cy="60" r="46" fill="none" stroke="#ffffff10" stroke-width="1.5"/>
-    <circle cx="60" cy="60" r="38" fill="none" stroke="#ffffff10" stroke-width="1.5"/>
-    <circle cx="60" cy="60" r="30" fill="none" stroke="#ffffff10" stroke-width="1.5"/>
-    <circle cx="60" cy="60" r="22" fill="none" stroke="#ffffff10" stroke-width="1.5"/>
-    <circle cx="60" cy="60" r="18" fill="${accent}" opacity="0.9"/>
-    <circle cx="60" cy="60" r="5"  fill="#111"/>
+  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="60" cy="60" r="60" fill="${bg}"/>
+    <circle cx="60" cy="60" r="48" fill="none" stroke="#ffffff0d" stroke-width="2"/>
+    <circle cx="60" cy="60" r="40" fill="none" stroke="#ffffff0d" stroke-width="2"/>
+    <circle cx="60" cy="60" r="32" fill="none" stroke="#ffffff0d" stroke-width="2"/>
+    <circle cx="60" cy="60" r="24" fill="none" stroke="#ffffff0d" stroke-width="2"/>
+    <circle cx="60" cy="60" r="18" fill="${accent}" opacity="0.95"/>
+    <circle cx="60" cy="60" r="5"  fill="#0a0603"/>
   </svg>`;
 }
 
-function renderCard(record) {
-  const card = document.createElement('div');
-  card.className = 'record-card';
-  card.dataset.id = record.id;
+// ── Shelf Render ─────────────────────────────────────────────
+function renderShelf(records) {
+  const shelf = document.getElementById('shelf-records');
+  shelf.innerHTML = '';
 
-  const meta = [record.year, record.genre].filter(Boolean)
-    .map(v => `<span class="tag">${v}</span>`).join('');
+  if (records.length === 0) return;
 
-  const notes = record.notes ? `<p class="card-notes">${record.notes}</p>` : '';
-
-  card.innerHTML = `
-    <div class="card-disc">${discSVG(record)}</div>
-    <div class="card-body">
-      <span class="card-artist">${record.artist}</span>
-      <span class="card-album">${record.album}</span>
-      ${meta ? `<div class="card-meta">${meta}</div>` : ''}
-      ${notes}
-    </div>
-    ${isOwnerMode ? `
-    <div class="card-actions">
-      <button class="btn-secondary edit-btn"   data-id="${record.id}">Edit</button>
-      <button class="btn-danger   delete-btn"  data-id="${record.id}">Remove</button>
-    </div>` : ''}`;
-
-  return card;
+  records.forEach(r => {
+    const el = document.createElement('div');
+    el.className = 'record-cover';
+    el.dataset.id = r.id;
+    el.innerHTML = `
+      <div class="cover-art">${discSVG(r)}</div>
+      <div class="cover-label">
+        <span class="cover-album">${r.album}</span>
+        <span class="cover-artist">${r.artist}</span>
+      </div>`;
+    el.addEventListener('click', () => openDetail(r.id));
+    shelf.appendChild(el);
+  });
 }
 
-function render() {
-  const query = searchInput.value.trim().toLowerCase();
-  const genre = genreFilter.value;
+// ── List Render ──────────────────────────────────────────────
+function renderList(records) {
+  const tbody = document.getElementById('list-body');
+  tbody.innerHTML = '';
 
-  const filtered = collection.filter(r => {
-    const matchesSearch = !query ||
+  records.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="list-artist">${r.artist}</td>
+      <td class="list-album">${r.album}</td>
+      <td class="list-year">${r.year || '—'}</td>
+      <td class="list-genre">${r.genre || '—'}</td>
+      <td class="list-actions">${isOwnerMode ? `
+        <button class="btn-secondary edit-btn" data-id="${r.id}">Edit</button>
+        <button class="btn-danger delete-btn" data-id="${r.id}">Remove</button>` : ''}
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ── Main Render ──────────────────────────────────────────────
+function render() {
+  const query = document.getElementById('search').value.trim().toLowerCase();
+  const genre = document.getElementById('filter-genre').value;
+
+  const filtered = sorted(collection).filter(r => {
+    const matchSearch = !query ||
       r.artist.toLowerCase().includes(query) ||
       r.album.toLowerCase().includes(query);
-    const matchesGenre = !genre || r.genre === genre;
-    return matchesSearch && matchesGenre;
+    const matchGenre = !genre || r.genre === genre;
+    return matchSearch && matchGenre;
   });
-
-  collectionEl.innerHTML = '';
-  filtered.forEach(r => collectionEl.appendChild(renderCard(r)));
 
   const total = collection.length;
   const count = filtered.length;
-  recordCount.textContent = (query || genre)
+  document.getElementById('record-count').textContent = (query || genre)
     ? `${count} of ${total} record${total !== 1 ? 's' : ''}`
     : `${total} record${total !== 1 ? 's' : ''}`;
 
-  emptyMsg.classList.toggle('hidden', count > 0);
+  document.getElementById('empty-msg').classList.toggle('hidden', count > 0);
+
+  if (currentView === 'shelf') {
+    renderShelf(filtered);
+  } else {
+    renderList(filtered);
+  }
 }
 
 function refreshGenreFilter() {
-  const current = genreFilter.value;
-  const genres = [...new Set(collection.map(r => r.genre).filter(Boolean))].sort();
-  genreFilter.innerHTML = '<option value="">All Genres</option>' +
+  const current = document.getElementById('filter-genre').value;
+  const genres  = [...new Set(collection.map(r => r.genre).filter(Boolean))].sort();
+  document.getElementById('filter-genre').innerHTML =
+    '<option value="">All Genres</option>' +
     genres.map(g => `<option value="${g}"${g === current ? ' selected' : ''}>${g}</option>`).join('');
 }
 
-// ── Modal helpers ────────────────────────────────────────────
+// ── View Toggle ──────────────────────────────────────────────
+function setView(view) {
+  currentView = view;
+  document.getElementById('shelf-view').classList.toggle('hidden', view !== 'shelf');
+  document.getElementById('list-view').classList.toggle('hidden',  view !== 'list');
+  document.getElementById('view-shelf').classList.toggle('active', view === 'shelf');
+  document.getElementById('view-list').classList.toggle('active',  view === 'list');
+  render();
+}
+
+document.getElementById('view-shelf').addEventListener('click', () => setView('shelf'));
+document.getElementById('view-list').addEventListener('click',  () => setView('list'));
+document.getElementById('sort-select').addEventListener('change', e => {
+  currentSort = e.target.value;
+  render();
+});
+
+// ── Detail Modal ─────────────────────────────────────────────
+function openDetail(id) {
+  const r = collection.find(rec => rec.id === id);
+  if (!r) return;
+  detailRecordId = id;
+
+  document.getElementById('detail-disc').innerHTML   = discSVG(r);
+  document.getElementById('detail-artist').textContent = r.artist;
+  document.getElementById('detail-album').textContent  = r.album;
+
+  const meta = [r.year, r.genre].filter(Boolean)
+    .map(v => `<span class="tag">${v}</span>`).join('');
+  document.getElementById('detail-meta').innerHTML = meta;
+
+  const notesEl = document.getElementById('detail-notes');
+  notesEl.textContent  = r.notes || '';
+  notesEl.style.display = r.notes ? '' : 'none';
+
+  document.getElementById('detail-edit').classList.toggle('hidden', !isOwnerMode);
+  document.getElementById('detail-delete').classList.toggle('hidden', !isOwnerMode);
+
+  document.getElementById('detail-modal').classList.remove('hidden');
+}
+
+function closeDetail() {
+  document.getElementById('detail-modal').classList.add('hidden');
+  detailRecordId = null;
+}
+
+document.getElementById('detail-close').addEventListener('click', closeDetail);
+document.getElementById('detail-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('detail-modal')) closeDetail();
+});
+
+document.getElementById('detail-edit').addEventListener('click', () => {
+  closeDetail();
+  const r = collection.find(rec => rec.id === detailRecordId);
+  if (r) openModal(r);
+});
+
+document.getElementById('detail-delete').addEventListener('click', () => {
+  closeDetail();
+  openConfirm(detailRecordId);
+});
+
+// ── Add/Edit Modal ────────────────────────────────────────────
 function openModal(record = null) {
   editingId = record ? record.id : null;
-  modalTitle.textContent = record ? 'Edit Record' : 'Add Record';
-  fArtist.value = record?.artist || '';
-  fAlbum.value  = record?.album  || '';
-  fYear.value   = record?.year   || '';
-  fGenre.value  = record?.genre  || '';
-  fNotes.value  = record?.notes  || '';
-  modal.classList.remove('hidden');
-  fArtist.focus();
+  document.getElementById('modal-title').textContent = record ? 'Edit Record' : 'Add Record';
+  document.getElementById('f-artist').value = record?.artist || '';
+  document.getElementById('f-album').value  = record?.album  || '';
+  document.getElementById('f-year').value   = record?.year   || '';
+  document.getElementById('f-genre').value  = record?.genre  || '';
+  document.getElementById('f-notes').value  = record?.notes  || '';
+  document.getElementById('modal').classList.remove('hidden');
+  document.getElementById('f-artist').focus();
 }
 
 function closeModal() {
-  modal.classList.add('hidden');
-  form.reset();
+  document.getElementById('modal').classList.add('hidden');
+  document.getElementById('record-form').reset();
   editingId = null;
 }
 
 function openConfirm(id) {
-  const rec = collection.find(r => r.id === id);
-  if (!rec) return;
+  const r = collection.find(rec => rec.id === id);
+  if (!r) return;
   pendingDeleteId = id;
-  confirmMsg.textContent = `Remove "${rec.album}" by ${rec.artist} from the collection?`;
-  confirmModal.classList.remove('hidden');
+  document.getElementById('confirm-msg').textContent =
+    `Remove "${r.album}" by ${r.artist} from the collection?`;
+  document.getElementById('confirm-modal').classList.remove('hidden');
 }
 
 function closeConfirm() {
-  confirmModal.classList.add('hidden');
+  document.getElementById('confirm-modal').classList.add('hidden');
   pendingDeleteId = null;
 }
 
 // ── CRUD ─────────────────────────────────────────────────────
-form.addEventListener('submit', async e => {
+document.getElementById('record-form').addEventListener('submit', async e => {
   e.preventDefault();
-  const artist = fArtist.value.trim();
-  const album  = fAlbum.value.trim();
+  const artist = document.getElementById('f-artist').value.trim();
+  const album  = document.getElementById('f-album').value.trim();
   if (!artist || !album) return;
 
   const record = {
     id:      editingId || crypto.randomUUID(),
     artist,
     album,
-    year:    fYear.value.trim(),
-    genre:   fGenre.value.trim(),
-    notes:   fNotes.value.trim(),
+    year:    document.getElementById('f-year').value.trim(),
+    genre:   document.getElementById('f-genre').value.trim(),
+    notes:   document.getElementById('f-notes').value.trim(),
     addedAt: editingId
       ? collection.find(r => r.id === editingId)?.addedAt
       : new Date().toISOString(),
   };
 
-  if (editingId) {
-    collection = collection.map(r => r.id === editingId ? record : r);
-  } else {
-    collection.push(record);
-  }
+  collection = editingId
+    ? collection.map(r => r.id === editingId ? record : r)
+    : [...collection, record];
 
   await saveCollection();
   refreshGenreFilter();
@@ -202,14 +275,14 @@ form.addEventListener('submit', async e => {
   closeModal();
 });
 
-collectionEl.addEventListener('click', e => {
+document.getElementById('list-body').addEventListener('click', e => {
   const editBtn   = e.target.closest('.edit-btn');
   const deleteBtn = e.target.closest('.delete-btn');
   if (editBtn)   openModal(collection.find(r => r.id === editBtn.dataset.id));
   if (deleteBtn) openConfirm(deleteBtn.dataset.id);
 });
 
-confirmDelete.addEventListener('click', async () => {
+document.getElementById('confirm-delete').addEventListener('click', async () => {
   if (!pendingDeleteId) return;
   collection = collection.filter(r => r.id !== pendingDeleteId);
   await saveCollection();
@@ -218,19 +291,23 @@ confirmDelete.addEventListener('click', async () => {
   closeConfirm();
 });
 
-// ── Event listeners ──────────────────────────────────────────
+// ── Global listeners ─────────────────────────────────────────
 document.getElementById('add-btn').addEventListener('click', () => openModal());
 document.getElementById('cancel-btn').addEventListener('click', closeModal);
-confirmCancel.addEventListener('click', closeConfirm);
+document.getElementById('confirm-cancel').addEventListener('click', closeConfirm);
 
-modal.addEventListener('click',        e => { if (e.target === modal)        closeModal(); });
-confirmModal.addEventListener('click', e => { if (e.target === confirmModal) closeConfirm(); });
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+document.getElementById('confirm-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('confirm-modal')) closeConfirm();
+});
 
-searchInput.addEventListener('input',  render);
-genreFilter.addEventListener('change', render);
+document.getElementById('search').addEventListener('input', render);
+document.getElementById('filter-genre').addEventListener('change', render);
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeModal(); closeConfirm(); }
+  if (e.key === 'Escape') { closeModal(); closeConfirm(); closeDetail(); }
 });
 
 // ── Recommendations ──────────────────────────────────────────

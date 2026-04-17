@@ -6,6 +6,23 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.4.0] — 2026-04-17
+
+### Added
+- Shelf view: horizontally scrollable LP covers on a wooden shelf (default view)
+- List view: compact table with artist, album, year, genre columns
+- View toggle button in controls bar
+- Sort by "Most Recently Added" (`addedAt` descending)
+- Record detail modal: opens on shelf cover click, shows disc art + metadata
+- Detail modal shows Edit/Remove in owner mode only
+
+### Changed
+- Full UI redesign: 80s warm lounge aesthetic — dark mahogany tones, amber accents, ambient ceiling-lamp glow
+- Card grid view replaced by shelf view
+- `docs/features/view-modes.md` spec added
+
+---
+
 ## [1.3.0] — 2026-04-17
 
 ### Added

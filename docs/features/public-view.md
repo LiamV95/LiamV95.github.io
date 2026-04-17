@@ -1,6 +1,6 @@
 # Feature Spec: Public View
 
-**Status:** 🚧 In Progress  
+**Status:** ✅ Live  
 **Last updated:** 2026-04-17
 
 ---
