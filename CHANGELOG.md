@@ -6,6 +6,19 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.2.0] — 2026-04-17
+
+### Added
+- `CLAUDE.md` — governance rules and Principal Engineer persona for AI-assisted development
+- `docs/SPECS_INDEX.md` — master index of all specifications
+- `docs/BACKLOG.md` — prioritised product backlog
+- `docs/architecture/architecture.md` — stack overview and ADRs (ADR-001 through ADR-003)
+- `docs/architecture/business_rules.md` — system invariants (BR-001 through BR-012)
+- `docs/features/collection.md` — full feature spec for the vinyl collection
+- `docs/decisions/`, `docs/learnings/`, `docs/walkthroughs/` — governance folders
+
+---
+
 ## [1.1.0] — 2026-04-16
 
 ### Changed
