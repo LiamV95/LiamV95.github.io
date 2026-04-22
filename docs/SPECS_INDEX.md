@@ -12,6 +12,7 @@ Master index of all feature and architecture specifications for Terry's Vinyl.
 | Public view (read-only mode) | `docs/features/public-view.md` | ✅ Live |
 | Album recommendations | `docs/features/recommendations.md` | ✅ Live |
 | View modes & sorting | `docs/features/view-modes.md` | ✅ Live |
+| Golf Booking Reminders | `docs/features/golf-booking-reminders.md` | ✅ Live |
 
 ---
 
@@ -19,7 +20,7 @@ Master index of all feature and architecture specifications for Terry's Vinyl.
 
 | Document | Path | Last updated |
 |---|---|---|
-| Architecture overview | `docs/architecture/architecture.md` | 2026-04-17 |
+| Architecture overview | `docs/architecture/architecture.md` | 2026-04-22 |
 | Business rules | `docs/architecture/business_rules.md` | 2026-04-17 |
 
 ---

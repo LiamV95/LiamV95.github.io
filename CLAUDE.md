@@ -98,6 +98,7 @@ The backlog lives at `docs/BACKLOG.md`.
 ## Port Registry
 
 - **3000** — Terry's Vinyl (static server + `/api/collection`)
+- **3001** — Golf Booking Reminders (`/golf/` subdirectory, static server + `/api/courses`)
 - Before using any other port, confirm it is not in use and document it here.
 
 ---

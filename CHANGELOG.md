@@ -1,8 +1,22 @@
 # Changelog
 
-All notable changes to **Terry's Vinyl** are documented here.
+All notable changes to **Terry's Vinyl** and sub-projects are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+---
+
+## [2.0.0] — 2026-04-22
+
+### Added
+- **Golf Booking Reminders** app in `/golf/` subdirectory (port 3001)
+- Dashboard: date picker (defaults to today + 7 days) showing each course's booking-open datetime and live status badge (Open now / Opens in Xd Yh / Opens in Xh Ym / Date passed)
+- Course management: add, edit, delete Vancouver golf courses with per-course lead time, booking open time, booking URL, and notes
+- Status badges sorted by time-until-opens ascending (soonest first)
+- Zero-dependency Node.js server (`golf/server.js`) with path-traversal protection
+- `golf/data.json` — persistent flat-file store for courses (full-replace on every save)
+- `docs/features/golf-booking-reminders.md` — full feature spec and business rules (GBR-001–GBR-007)
+- ADR-004 documenting the subdirectory-per-port architecture decision
 
 ---
 

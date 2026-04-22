@@ -33,3 +33,4 @@ Priority tiers: **P1** (must have) · **P2** (should have) · **P3** (nice to ha
 | 5 | Delete confirmation modal | 2026-04-16 | v1.0.0 |
 | 6 | Migrate storage from localStorage to data.json | 2026-04-16 | v1.1.0 |
 | 7 | Node.js local server (zero dependencies) | 2026-04-16 | v1.1.0 |
+| 8 | Golf Booking Reminders app (`/golf/`) | 2026-04-22 | v2.0.0 — separate subdirectory, port 3001 |

@@ -1,0 +1,11 @@
+{
+  "name": "golf-booking-reminders",
+  "version": "1.0.0",
+  "description": "Vancouver golf course booking window tracker",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

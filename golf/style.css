@@ -1,0 +1,427 @@
+:root {
+  --bg: #f5f8f5;
+  --surface: #ffffff;
+  --primary: #1e5631;
+  --accent: #3d8b37;
+  --accent-light: #e6f4e5;
+  --text: #1a1a1a;
+  --muted: #6b7280;
+  --border: #d1dfd1;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+  --open-text: #14532d;
+  --open-bg: #dcfce7;
+  --soon-text: #92400e;
+  --soon-bg: #fef3c7;
+  --future-text: #1e40af;
+  --future-bg: #dbeafe;
+  --passed-text: #4b5563;
+  --passed-bg: #f3f4f6;
+
+  --danger: #dc2626;
+  --danger-bg: #fee2e2;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ─── Header ─────────────────────────────────────── */
+
+header {
+  background: var(--primary);
+  color: #fff;
+  padding: 0 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.header-inner {
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  gap: 1rem;
+}
+
+h1 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nav-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.75);
+  padding: 0.375rem 0.875rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-family: inherit;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* ─── Main layout ─────────────────────────────────── */
+
+main {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* ─── Dashboard ───────────────────────────────────── */
+
+.date-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.date-row label {
+  font-weight: 500;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+}
+
+.date-row input[type='date'] {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.4375rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  color: var(--text);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.date-row input[type='date']:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.course-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.course-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.125rem 1.25rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-name {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.card-rule {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin-bottom: 0.625rem;
+}
+
+.card-opens {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.card-opens strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.card-link {
+  margin-top: 0.4rem;
+  font-size: 0.8125rem;
+}
+
+.card-link a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.card-link a:hover {
+  text-decoration: underline;
+}
+
+/* ─── Status badges ───────────────────────────────── */
+
+.badge {
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+.badge-open   { background: var(--open-bg);   color: var(--open-text); }
+.badge-soon   { background: var(--soon-bg);   color: var(--soon-text); }
+.badge-future { background: var(--future-bg); color: var(--future-text); }
+.badge-passed { background: var(--passed-bg); color: var(--passed-text); }
+
+/* ─── Empty state ─────────────────────────────────── */
+
+.empty-state {
+  text-align: center;
+  padding: 3.5rem 1rem;
+  color: var(--muted);
+}
+
+.empty-state p {
+  margin-bottom: 1.25rem;
+  font-size: 0.9375rem;
+}
+
+/* ─── Manage view ─────────────────────────────────── */
+
+.manage-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.manage-header h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-family: inherit;
+  font-weight: 500;
+  transition: background 0.15s;
+}
+
+.btn-primary:hover {
+  background: var(--primary);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  font-size: 0.875rem;
+}
+
+thead th {
+  background: var(--primary);
+  color: #fff;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+tbody td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover td {
+  background: var(--bg);
+}
+
+.btn-sm {
+  padding: 0.275rem 0.6rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8125rem;
+  font-family: inherit;
+  font-weight: 500;
+  margin-right: 0.25rem;
+  transition: opacity 0.15s;
+}
+
+.btn-edit   { background: var(--accent-light); color: var(--primary); }
+.btn-delete { background: var(--danger-bg);    color: var(--danger); }
+.btn-sm:hover { opacity: 0.75; }
+
+/* ─── Modal ───────────────────────────────────────── */
+
+.hidden {
+  display: none !important;
+}
+
+#modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+#modal {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 2rem;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+#modal h2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+#course-form label {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.optional {
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+#course-form input,
+#course-form textarea {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.4375rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--text);
+  background: var(--surface);
+}
+
+#course-form input:focus,
+#course-form textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+  border-color: transparent;
+}
+
+.form-error {
+  font-size: 0.8125rem;
+  color: var(--danger);
+  margin-bottom: 0.5rem;
+  margin-top: -0.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+#btn-cancel {
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: var(--muted);
+  transition: background 0.15s;
+}
+
+#btn-cancel:hover {
+  background: var(--bg);
+}
+
+/* ─── Responsive ──────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .header-inner {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 0.75rem 0;
+    gap: 0.5rem;
+  }
+
+  h1 { font-size: 1rem; }
+
+  .course-card {
+    flex-direction: column;
+  }
+
+  .badge {
+    align-self: flex-start;
+  }
+
+  thead th,
+  tbody td {
+    padding: 0.6rem 0.75rem;
+  }
+
+  table {
+    font-size: 0.8125rem;
+  }
+}

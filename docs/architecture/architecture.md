@@ -84,3 +84,13 @@ Browser → POST /api/collection   →  server.js validates + writes data.json  
 **Reasoning:** The app has one feature domain (the collection). Module splitting adds complexity with no benefit at this scale.
 
 **Consequence:** If `app.js` exceeds ~400 lines, raise with the user before splitting.
+
+---
+
+### ADR-004 — Golf app as a subdirectory on its own port (2026-04-22)
+
+**Decision:** The Golf Booking Reminders app lives in `/golf/` and runs on port 3001 as a fully self-contained app (its own `server.js`, `data.json`, `index.html`, `app.js`, `style.css`).
+
+**Reasoning:** The golf app is an entirely different product domain from Terry's Vinyl. Sharing the same server would require routing logic and scope creep into Terry's Vinyl's codebase. A clean subdirectory with its own server keeps both apps independent and easier to reason about.
+
+**Consequence:** Each app must be started separately (`npm start` in the root for Terry's Vinyl, `npm start` inside `/golf/` for the golf app). Port 3001 is now reserved — see Port Registry in CLAUDE.md.
